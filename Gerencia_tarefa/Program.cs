@@ -1,7 +1,17 @@
+using Gerencia_tarefa.Data;
+using Gerencia_tarefa.Repositorio;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddEntityFrameworkSqlServer()
+    .AddDbContext<BancoContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ITarefasRepositorio, TarefasRepositorio>();
+// USAR DEPOIS 
+//builder.Services.AddScoped<IContatoRepositorio, ContatoRepositorio>();
 
 var app = builder.Build();
 
@@ -14,8 +24,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseRouting();
+app.UseStaticFiles(); // UseStaticFiles é o padrão, MapStaticAssets é comum no .NET 9
 
+
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();

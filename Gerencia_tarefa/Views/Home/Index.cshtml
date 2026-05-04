@@ -1,46 +1,89 @@
-﻿@{
+﻿@model Model_index 
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 >Gerenciador de Tarefas</h1>
-    <h3 >Comece por aqui</h3>
-    <br/>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Conclusão</th>
-                <th scope="col">Indice</th>
-                <th scope="col">Tarefa</th>
-                <th scope="col">Data</th>
-                <th scope="col">Horário início</th>
-                <th scope="col">Horário fim</th>
-                <th scope="col">Prazo final</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <input class="form-check-input" type="checkbox">
-                </td>
-                <th scope="row">1</th>
-                <td>Estudar ASP.NET</td>
-                <td>29/04/2026</td>
-                <td>08:00</td>
-                <td>10:00</td>
-                <td>30/04/2026</td>
-                <td>
-                    <!-- BOTÕES -->
-                    <a role="button" class="btn btn-primary">Editar</a>
+    <h1>Gerenciador de Tarefas</h1>
+    <h3>Comece por aqui</h3>
+    <br />
 
-                    <a role="button" class="btn btn-danger">Apagar</a>
-                </td>
-            </tr>
-        </tbody>
-        <div class="mt-3">
-            <button type="button" class="btn btn-primary">
-                Criar Novo Registro
-            </button>
-        </div>
+    <!-- O botão deve ficar fora da tabela ou em uma estrutura válida -->
+    <div class="mb-3">
+        <button type="button" class="btn btn-primary" onclick="toggleCadastro()">
+            Criar Novo Registro
+        </button>
+    </div>
+    <form asp-controller="Home" asp-action="Index" method="post">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Conclusão</th>
+                    <th scope="col">Indice</th>
+                    <th scope="col">Tarefa</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Horário início</th>
+                    <th scope="col">Horário fim</th>
+                    <th scope="col">Prazo final</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!-- Registro Exemplo (Depois você fará o foreach aqui) -->
+                <tr style="display: table-row">
+                    <td><input class="form-check-input" type="checkbox"></td>
+                    <th scope="row">1</th>
+                    <td>Estudar ASP.NET</td>
+                    <td>29/04/2026</td>
+                    <td>08:00</td>
+                    <td>10:00</td>
+                    <td>30/04/2026</td>
+                    <td>
+                        <a role="button" class="btn btn-primary btn-sm">Editar</a>
+                        <a role="button" class="btn btn-danger btn-sm">Apagar</a>
+                    </td>
+                </tr>
+
+                <!-- Linha de Cadastro (Sempre pronta para aparecer no topo) -->
+            
+                <tr id="linhaCadastro" style="display: table-row; background-color: #f8f9fa;">
+                    <td><input class="form-check-input" type="checkbox" name="novoConcluido"></td>
+                    <td><input type="number" asp-for="Id" class="form-control form-control-sm" /></td>
+                    <td><input type="text" asp-for="Tarefa" class="form-control form-control-sm" /></td>
+                    <td><input type="date" asp-for="Data" class="form-control form-control-sm" /></td>
+                    <td><input type="time" asp-for="Horario_inicio"  class="form-control form-control-sm" /></td>
+                    <td><input type="time" asp-for="Horario_fim" class="form-control form-control-sm" /></td>
+                    <td><input type="date" asp-for="Prazo_final" class="form-control form-control-sm" /></td>
+                    <td>
+                        <button type="submit" class="btn btn-success btn-sm" onclick="salvarNovoRegistro()">Registrar</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleCadastro()">Cancelar</button>
+                    </td>
+                </tr>
+            </tbody>
+
+
+        </table>
+
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleCadastro() {
+            const linha = document.getElementById("linhaCadastro");
+            // Se estiver escondido, mostra. Se estiver visível, esconde.
+            if (linha.style.display === "none") {
+                linha.style.display = "table-row";
+            } else {
+                linha.style.display = "none";
+            }
+        }
+        /*
+        function salvarNovoRegistro() {
+            // Aqui você adiciona a lógica para pegar os valores e enviar ao Controller
+            alert("Botão Salvar clicado! Agora é só implementar o envio dos dados.");
+        }*/
+    </script>
+}
 </div>
