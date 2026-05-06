@@ -14,8 +14,18 @@ namespace Gerencia_tarefa.Controllers
         }
         public IActionResult Index()
         {
-            List<Model_index> tarefas = _tarefas_repositorio.BuscarTodos(); // metodo get para buscar dados
-            return View(tarefas);
+            List<Model_index> tarefas = _tarefas_repositorio.BuscarTodos(); // metodo get qie usa o contrato da interface para buscar dados
+            return View(tarefas); // retorna lista de dados
+        }
+
+        public IActionResult Editar(int id)
+        {
+            // "Model_index" declara o tipo da variavel que é exatamente uma model, isso é necessário porque o retorno no final será um objeto model
+            // "tarefa" simplesmente o nome aleatório escolhido para a variável
+            // "_tarefas_repositorio" acessa o método ".Editar_por_id(id)" para encontrar o Id referente a linha da tabela 
+            Model_index tarefa = _tarefas_repositorio.Editar_por_id(id);
+
+            return View(tarefa); // retorna o resultado da variável "tarefa"
         }
 
         public IActionResult Privacy()
@@ -26,7 +36,7 @@ namespace Gerencia_tarefa.Controllers
         [HttpPost] // adiciona o método post
         public IActionResult Index(Model_index tarefas) // action que conecta model e view
         {
-            _tarefas_repositorio.Adicionar(tarefas); // metodo adicionar trazido pela pela interface
+            _tarefas_repositorio.Adicionar(tarefas); // metodo que utiliza o contrato da interface para adicionar trazido pela pela interface
             return RedirectToAction("Index"); // retorna o resultado para o index
         }
 

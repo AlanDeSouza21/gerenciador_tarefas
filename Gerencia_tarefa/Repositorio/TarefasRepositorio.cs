@@ -11,7 +11,12 @@ namespace Gerencia_tarefa.Repositorio
         {
             _bancoContext = banco_context; // com ajuda do script que foi inserido no "Program.cs"
         }
-        
+
+        public Model_index Editar_por_id(int id)
+        {
+            return _bancoContext.Tarefas.FirstOrDefault(x => x.Id == id); // Pegue o primeiro registro onde o Id seja igual ao id informado
+        }
+
         public List<Model_index> BuscarTodos()
         {
             return _bancoContext.Tarefas.ToList(); // retorna, "_bancoContext.Tarefas" retorna a tabela Tarefas em formato de lista
@@ -24,7 +29,6 @@ namespace Gerencia_tarefa.Repositorio
             _bancoContext.SaveChanges(); // salva a adição de dados
             return tarefas; // retorna os dados
         }
-
 
     }
 }

@@ -4,6 +4,7 @@ namespace Gerencia_tarefa.Repositorio
 {
     public interface ITarefasRepositorio
     {
+        Model_index Editar_por_id(int id); // esse contrato retorna o model e tem intenção de usar o "Id" como parâmetro
         List<Model_index> BuscarTodos(); // lista a model
         Model_index Adicionar(Model_index tarefas);
         /*

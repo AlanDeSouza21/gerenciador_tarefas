@@ -44,15 +44,16 @@
                             <td>@dados.Horario_fim</td>
                             <td>@dados.Prazo_final</td>
                             <td>
-                                <a role="button" class="btn btn-primary btn-sm" asp-route-id="@dados.Id">Editar</a>
+                                <a role="button" class="btn btn-primary btn-sm" asp-route-id="@dados.Id" onclick="toggle_Editar(this)">Editar</a>
                                 <a role="button" class="btn btn-danger btn-sm" asp-route-id="@dados.Id">Apagar</a>
                             </td>
                         </tr>
+                        @await Html.PartialAsync("_LinhaEditar", new Model_index())
                     }
                 }
-                <!-- Linha de cadastro -->
+                <!-- PARTIAL VIEW (_LinhaCadastro) responsável por Linha de cadastro -->
                 @await Html.PartialAsync("_LinhaCadastro", new Model_index())
-
+                
             </tbody>
 
 
@@ -71,6 +72,19 @@
             } else {
                 linha.style.display = "table-row";
             }
+            console.log("apertou novo cadastro")
+        }
+
+        function toggle_Editar(botao) {
+            // encontra a linha mais próxima (ex: mesma linha da tabela)
+            const linha_editar = botao.closest("tr").nextElementSibling;
+
+            if (linha_editar.style.display === "none") {
+                linha_editar.style.display = "table-row";
+            } else {
+                linha_editar.style.display = "none";
+            }
+            console.log(linha_editar)
         }
         /*
         function salvarNovoRegistro() {
