@@ -14,7 +14,8 @@ namespace Gerencia_tarefa.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            List<Model_index> tarefas = _tarefas_repositorio.BuscarTodos(); // metodo get para buscar dados
+            return View(tarefas);
         }
 
         public IActionResult Privacy()

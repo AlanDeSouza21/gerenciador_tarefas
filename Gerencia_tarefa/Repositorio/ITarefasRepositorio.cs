@@ -4,6 +4,7 @@ namespace Gerencia_tarefa.Repositorio
 {
     public interface ITarefasRepositorio
     {
+        List<Model_index> BuscarTodos(); // lista a model
         Model_index Adicionar(Model_index tarefas);
         /*
             Model_index

@@ -1,4 +1,4 @@
-﻿@model Model_index 
+﻿@model List<Model_index>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -14,7 +14,7 @@
             Criar Novo Registro
         </button>
     </div>
-    <form asp-controller="Home" asp-action="Index" method="post">
+    <form asp-controller="Home" asp-action="Index" method="post"> <!-- declaração controller, action e método de requisição -->
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -31,35 +31,28 @@
 
             <tbody>
                 <!-- Registro Exemplo (Depois você fará o foreach aqui) -->
-                <tr style="display: table-row">
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <th scope="row">1</th>
-                    <td>Estudar ASP.NET</td>
-                    <td>29/04/2026</td>
-                    <td>08:00</td>
-                    <td>10:00</td>
-                    <td>30/04/2026</td>
-                    <td>
-                        <a role="button" class="btn btn-primary btn-sm">Editar</a>
-                        <a role="button" class="btn btn-danger btn-sm">Apagar</a>
-                    </td>
-                </tr>
+                @if(Model != null && Model.Any()) // CONDIÇÃO: se model for diferente de nulo e model tiver algo
+                {
+                    foreach(Model_index dados in Model) 
+                    {// Loop percorre a model e repete até finalizar o carregamento dos dados
+                        <tr style="display: table-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <th scope="row">@dados.Id</th>
+                            <td>@dados.Tarefa</td>
+                            <td>@dados.Data</td>
+                            <td>@dados.Horario_inicio</td>
+                            <td>@dados.Horario_fim</td>
+                            <td>@dados.Prazo_final</td>
+                            <td>
+                                <a role="button" class="btn btn-primary btn-sm" asp-route-id="@dados.Id">Editar</a>
+                                <a role="button" class="btn btn-danger btn-sm" asp-route-id="@dados.Id">Apagar</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                <!-- Linha de cadastro -->
+                @await Html.PartialAsync("_LinhaCadastro", new Model_index())
 
-                <!-- Linha de Cadastro (Sempre pronta para aparecer no topo) -->
-            
-                <tr id="linhaCadastro" style="display: table-row; background-color: #f8f9fa;">
-                    <td><input class="form-check-input" type="checkbox" name="novoConcluido"></td>
-                    <td><input type="number" asp-for="Id" class="form-control form-control-sm" /></td>
-                    <td><input type="text" asp-for="Tarefa" class="form-control form-control-sm" /></td>
-                    <td><input type="date" asp-for="Data" class="form-control form-control-sm" /></td>
-                    <td><input type="time" asp-for="Horario_inicio"  class="form-control form-control-sm" /></td>
-                    <td><input type="time" asp-for="Horario_fim" class="form-control form-control-sm" /></td>
-                    <td><input type="date" asp-for="Prazo_final" class="form-control form-control-sm" /></td>
-                    <td>
-                        <button type="submit" class="btn btn-success btn-sm" onclick="salvarNovoRegistro()">Registrar</button>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleCadastro()">Cancelar</button>
-                    </td>
-                </tr>
             </tbody>
 
 
@@ -73,10 +66,10 @@
         function toggleCadastro() {
             const linha = document.getElementById("linhaCadastro");
             // Se estiver escondido, mostra. Se estiver visível, esconde.
-            if (linha.style.display === "none") {
-                linha.style.display = "table-row";
-            } else {
+            if (linha.style.display === "table-row") {
                 linha.style.display = "none";
+            } else {
+                linha.style.display = "table-row";
             }
         }
         /*
